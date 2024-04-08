@@ -8,12 +8,26 @@ function AuthContextProvider(props) {
   const [user, setUser] = useState([]);
 
   async function getLoggedIn() {
-    const loggedInRes = await axios.get(
-      "https://ccl-mini-project.onrender.com/auth/loggedIn",
-      { withCredentials: true }
-    );
-    setLoggedIn(loggedInRes.data.auth);
-    setUser(loggedInRes.data.user);
+    try {
+      const response = await fetch(
+        "https://ccl-mini-project.onrender.com/auth/loggedIn",
+        {
+          method: "GET",
+          credentials: "include", // This ensures that cookies are sent with the request
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      setLoggedIn(data.auth);
+      setUser(data.user);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle error
+    }
   }
 
   useEffect(() => {
