@@ -9,13 +9,10 @@ function AuthContextProvider(props) {
 
   async function getLoggedIn() {
     try {
-      const response = await fetch(
-        "https://ccl-mini-project.onrender.com/auth/loggedIn",
-        {
-          method: "GET",
-          credentials: "include", // This ensures that cookies are sent with the request
-        }
-      );
+      const response = await fetch("/auth/loggedIn", {
+        method: "GET",
+        credentials: "include", // This ensures that cookies are sent with the request
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
